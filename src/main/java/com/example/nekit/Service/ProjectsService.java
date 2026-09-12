@@ -5,7 +5,9 @@ import com.example.nekit.DTO.ProjectsDTO.ProjectUpdateDTO;
 import com.example.nekit.Entity.Projects;
 import com.example.nekit.Repository.ProjectsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +33,9 @@ public class ProjectsService {
         projectsRepository.deleteById(id);
     }
 
-    public Optional<Projects> findProject(UUID id) {
-        return projectsRepository.findById(id);
+    public Projects findProject(UUID id) {
+        return projectsRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "PROJECT NOT FOUND"));
     }
 
     public List<Projects> findAll() {
@@ -40,8 +43,8 @@ public class ProjectsService {
     }
 
     public void updateProject(UUID id, ProjectUpdateDTO projectUpdateDTO) {
-        Projects projectEntity = findProject(id).orElseThrow(() ->
-                new RuntimeException("Project not found"));
+        Projects projectEntity = projectsRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "PROJECT NOT FOUND"));
 
         if (projectUpdateDTO.title() != null) {
             projectEntity.setTitle(projectUpdateDTO.title());
