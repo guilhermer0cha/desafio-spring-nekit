@@ -1,8 +1,11 @@
 package com.example.nekit.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -36,4 +39,7 @@ public class Projects {
     public void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Tasks> tasks = new ArrayList<>();
 }

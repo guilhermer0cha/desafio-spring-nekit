@@ -4,10 +4,8 @@ import com.example.nekit.DTO.ProjectsDTO.ProjectCreateDTO;
 import com.example.nekit.DTO.ProjectsDTO.ProjectUpdateDTO;
 import com.example.nekit.Entity.Projects;
 import com.example.nekit.Service.ProjectsService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

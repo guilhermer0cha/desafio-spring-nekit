@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name = "tasks", schema = "bigbank")
 public class Tasks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
