@@ -1,6 +1,7 @@
 package com.example.nekit.Controller;
 
 import com.example.nekit.DTO.ProjectsDTO.ProjectCreateDTO;
+import com.example.nekit.DTO.ProjectsDTO.ProjectResponseDTO;
 import com.example.nekit.DTO.ProjectsDTO.ProjectUpdateDTO;
 import com.example.nekit.Entity.Projects;
 import com.example.nekit.Service.ProjectsService;
@@ -28,9 +29,8 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Projects> findById(@PathVariable UUID id) {
-        Projects project = projectsService.findProject(id);
-        return ResponseEntity.ok(project);
+    public ProjectResponseDTO findById(@PathVariable UUID id) {
+        return projectsService.findProject(id);
     }
 
     @GetMapping

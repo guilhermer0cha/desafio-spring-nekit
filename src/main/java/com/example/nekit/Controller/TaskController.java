@@ -1,5 +1,6 @@
 package com.example.nekit.Controller;
 
+import com.example.nekit.DTO.TasksDTO.TaskResponseDTO;
 import com.example.nekit.Entity.Tasks;
 import com.example.nekit.Service.TasksService;
 import com.example.nekit.DTO.TasksDTO.TaskCreateDTO;
@@ -15,7 +16,7 @@ public class TaskController {
     private final TasksService tasksService;
 
     @PostMapping
-    public Tasks create(@RequestBody TaskCreateDTO taskCreateDTO) {
+    public TaskResponseDTO create(@RequestBody TaskCreateDTO taskCreateDTO) {
         return tasksService.createTask(taskCreateDTO);
     }
 

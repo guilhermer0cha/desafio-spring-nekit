@@ -1,16 +1,18 @@
 package com.example.nekit.Service;
 
 import com.example.nekit.DTO.ProjectsDTO.ProjectCreateDTO;
+import com.example.nekit.DTO.ProjectsDTO.ProjectResponseDTO;
 import com.example.nekit.DTO.ProjectsDTO.ProjectUpdateDTO;
+import com.example.nekit.DTO.TasksDTO.TaskResponseDTO;
 import com.example.nekit.Entity.Projects;
 import com.example.nekit.Repository.ProjectsRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 import java.util.UUID;
 
@@ -33,9 +35,27 @@ public class ProjectsService {
         projectsRepository.deleteById(id);
     }
 
-    public Projects findProject(UUID id) {
-        return projectsRepository.findById(id)
+
+
+    public ProjectResponseDTO findProject(UUID id) {
+        Projects project = projectsRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "PROJECT NOT FOUND"));
+
+        List<TaskResponseDTO> taskDTOs = project.getTasks().stream()
+                .map(task -> new TaskResponseDTO(
+                        task.getId(),
+                        task.getTitle(),
+                        task.getPriority(),
+                        project.getId(),
+                        task.getDueDate()
+                ))
+                .toList();
+
+        return new ProjectResponseDTO(
+                project.getId(),
+                project.getTitle(),
+                taskDTOs
+        );
     }
 
     public List<Projects> findAll() {
