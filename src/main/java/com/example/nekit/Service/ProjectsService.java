@@ -7,7 +7,6 @@ import com.example.nekit.DTO.TasksDTO.TaskResponseDTO;
 import com.example.nekit.Entity.Projects;
 import com.example.nekit.Entity.Tasks;
 import com.example.nekit.Repository.ProjectsRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

@@ -1,0 +1,24 @@
+CREATE SCHEMA IF NOT EXISTS bigbank;
+
+CREATE TABLE bigbank.projects (
+    id UUID PRIMARY KEY DEFAULT uuidv7(),
+    title VARCHAR(60) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE bigbank.tasks (
+    id UUID PRIMARY KEY DEFAULT uuidv7(),
+    project_id UUID NOT NULL,
+    title VARCHAR(60) NOT NULL,
+    completed BOOLEAN NOT NULL DEFAULT FALSE,
+    priority VARCHAR(10) NOT NULL,
+    due_date DATE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_project
+        FOREIGN KEY (project_id)
+        REFERENCES bigbank.projects(id)
+);
