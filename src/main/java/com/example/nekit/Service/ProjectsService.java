@@ -5,6 +5,7 @@ import com.example.nekit.DTO.ProjectsDTO.ProjectResponseDTO;
 import com.example.nekit.DTO.ProjectsDTO.ProjectUpdateDTO;
 import com.example.nekit.DTO.TasksDTO.TaskResponseDTO;
 import com.example.nekit.Entity.Projects;
+import com.example.nekit.Entity.Tasks;
 import com.example.nekit.Repository.ProjectsRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.UUID;
@@ -58,8 +60,32 @@ public class ProjectsService {
         );
     }
 
-    public List<Projects> findAll() {
-        return projectsRepository.findAll();
+
+    public List<ProjectResponseDTO> findAllProjects() {
+        List<Projects> allProjects = projectsRepository.findAll();
+
+        List<ProjectResponseDTO> finalList = new ArrayList<>();
+
+        for (Projects project : allProjects) {
+            List<TaskResponseDTO> taskListDTO = new ArrayList<>();
+            for (Tasks task : project.getTasks()) {
+                TaskResponseDTO taskDTO = new TaskResponseDTO(
+                        task.getId(),
+                        task.getTitle(),
+                        task.getPriority(),
+                        project.getId(),
+                        task.getDueDate()
+                );
+                taskListDTO.add(taskDTO);
+            }
+            ProjectResponseDTO projectDTO = new ProjectResponseDTO(
+                    project.getId(),
+                    project.getTitle(),
+                    taskListDTO
+            );
+            finalList.add(projectDTO);
+        }
+        return finalList;
     }
 
     public void updateProject(UUID id, ProjectUpdateDTO projectUpdateDTO) {

@@ -5,6 +5,7 @@ import com.example.nekit.DTO.ProjectsDTO.ProjectResponseDTO;
 import com.example.nekit.DTO.ProjectsDTO.ProjectUpdateDTO;
 import com.example.nekit.Entity.Projects;
 import com.example.nekit.Service.ProjectsService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ProjectController {
     private final ProjectsService projectsService;
 
     @PostMapping
-    public Projects createProject(@RequestBody ProjectCreateDTO projectCreateDTO) {
+    public Projects createProject(@Valid @RequestBody ProjectCreateDTO projectCreateDTO) {
         return projectsService.createProject(projectCreateDTO);
     }
 
@@ -34,8 +35,8 @@ public class ProjectController {
     }
 
     @GetMapping
-    public List<Projects> findAll() {
-        return projectsService.findAll();
+    public List<ProjectResponseDTO> findAllProjects() {
+        return projectsService.findAllProjects();
     }
 
     @PutMapping("/{id}")
